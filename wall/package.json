@@ -6,9 +6,9 @@
   "email": "dev@antonkluev.com",
   "git": "https://github.com/antonkluev",
   "scripts": {
-    "client": "cross-env NODE_ENV=client.dev webpack-dev-server --config ./webpack.js",
-    "server": "cross-env NODE_ENV=server.dev webpack --config ./webpack.js",
-    "build": "cross-env NODE_ENV=build.prod webpack --config ./webpack.js --progress"
+    "client": "cross-env NODE_ENV=client.dev webpack-dev-server --config ./dev/webpack.js",
+    "server": "cross-env NODE_ENV=server.dev webpack --config ./dev/webpack.js",
+    "build": "cross-env NODE_ENV=build.prod webpack --config ./dev/webpack.js --progress"
   },
   "dependencies": {
     "fw": "https://github.com/antonkluev/fw.git",
