@@ -1,0 +1,34 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "application example",
+  "author": "antonkluev",
+  "email": "dev@antonkluev.com",
+  "git": "https://github.com/antonkluev",
+  "scripts": {
+    "client": "cross-env NODE_ENV=client.dev webpack-dev-server --config ./webpack.js",
+    "server": "cross-env NODE_ENV=server.dev webpack --config ./webpack.js",
+    "build": "cross-env NODE_ENV=build.prod webpack --config ./webpack.js --progress"
+  },
+  "dependencies": {
+    "fw": "https://github.com/antonkluev/fw.git",
+    "socket.io": "^2.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^3.2.4",
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015-native-modules": "^6.9.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.12.4",
+    "css-loader": "^0.25.0",
+    "file-loader": "^0.10.1",
+    "loader-utils": "^1.0.3",
+    "node-sass": "^3.11.2",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  }
+}
