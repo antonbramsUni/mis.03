@@ -1,19 +1,28 @@
 
-let http   = require('http')
-let server = http.createServer()
-let io     = require('socket.io')(server)
+const path    = require('path')
+const express = require('express')
+const app     = express()
+const server  = require('http').Server(app).listen(8000)
+const io      = require('socket.io')(server)
 
-server.listen(3000, () => {
-	console.log('listening on *:3000')
-})
+app.use('/wall', express.static('www/wall'))
+app.use('/client', express.static('www/client'))
 
 io.sockets.on('connection', socket => {
+	console.log('socket connected...')
 	socket.on('disconnect', () => {
-		console.log('socket disconnected')
-		// socket.emit('text', 'wow. such event. very real time.')
+		console.log('...socket disconnected')
 	})
-	socket.on('stream', data => {
-		// console.log('stream', data)
-		socket.broadcast.emit('stream', data)
+	socket.on('stream.client', data => {
+		console.log('stream', new Date())
+		socket.broadcast.emit('stream.client', data)
+	})
+	socket.on('stream.wall', data => {
+		// console.log('stream', new Date())
+		// socket.broadcast.emit('stream', data)
+	})
+	socket.on('pointer', data => {
+		// console.log('[pointer]', data)
+		socket.broadcast.emit('pointer', data)
 	})
 })
