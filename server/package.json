@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "fw": "https://github.com/antonkluev/fw.git",
+    "opencv": "^6.0.0",
     "socket.io": "^2.0.1"
   },
   "devDependencies": {

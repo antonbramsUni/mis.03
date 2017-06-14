@@ -12031,6 +12031,8 @@ var last = null;
 
 var draw = exports.draw = function draw() {
 	ct.clearRect(0, 0, cv.width, cv.height);
+	ct.fillStyle = 'white';
+	ct.fillRect(0, 0, cv.width, cv.height);
 	_model2.default.concat().sort(function (a, b) {
 		return a.z - b.z;
 	}).forEach(function (rect) {

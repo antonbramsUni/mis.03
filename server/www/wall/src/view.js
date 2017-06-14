@@ -19,6 +19,8 @@ let last = null
 
 export let draw = () => {
 	ct.clearRect(0, 0, cv.width, cv.height)
+	ct.fillStyle = 'white'
+	ct.fillRect(0, 0, cv.width, cv.height)
 	rects.concat().sort((a, b) => a.z - b.z).forEach(rect => {
 		ct.save()
 		roundedImage(rect.x, rect.y, rect.w, rect.h, 10)
