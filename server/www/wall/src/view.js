@@ -28,7 +28,7 @@ export let draw = () => {
 		ct.shadowOffsetX = 0
 		ct.shadowOffsetY = 10
 		ct.shadowColor   = 'rgba(0,0,0,.4)'
-		ct.fillStyle = 'white'
+		ct.fillStyle     = 'white'
 		ct.fill()
 		ct.clip()
 		ct.drawImage(rect.img, rect.x, rect.y, rect.w, rect.h)
