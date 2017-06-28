@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11827,13 +11827,16 @@ module.exports = function(module) {
 /* 52 */,
 /* 53 */,
 /* 54 */,
-/* 55 */
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(59);
+var content = __webpack_require__(61);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(47)(content, {});
@@ -11853,14 +11856,14 @@ if(false) {
 }
 
 /***/ }),
-/* 56 */,
-/* 57 */
+/* 59 */,
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(55);
+__webpack_require__(58);
 
 var _socket = __webpack_require__(24);
 
@@ -11882,11 +11885,11 @@ document.addEventListener('deviceready', function () {
 		socket.emit('hello', 'world');
 	}
 	// html elements
-	);var v = document.querySelector('.view');
+	);var cv = document.querySelector('.view');
 	var last = null;
 	var rate = 100;
 	// start camera
-	window.plugin.CanvasCamera.initialize(v);
+	window.plugin.CanvasCamera.initialize(cv);
 	window.plugin.CanvasCamera.start({
 		cameraPosition: 'back', fps: 30, use: 'data',
 		canvas: { width: 667, height: 375 },
@@ -11898,27 +11901,30 @@ document.addEventListener('deviceready', function () {
 	// mouse drag
 	);_fw.Screen.on('touchstart', function (e) {
 		console.log('down', e);
-		socket.emit('pointer', { type: 'down', x: e.pageX, y: e.pageY }
-		// socket.emit('stream.client', stream)
-		);
+		socket.emit('pointer', {
+			type: 'down',
+			pointer: { x: e.pageX, y: e.pageY }
+		});
 	});
 	_fw.Screen.on('touchmove', function (e) {
 		console.log('move', e);
 		if (new Date() - last > rate) {
 			last = new Date();
-			socket.emit('pointer', { type: 'move', x: e.pageX, y: e.pageY });
-			socket.emit('stream.client', v.toDataURL('image/jpeg', 0.1));
+			socket.emit('pointer', {
+				type: 'move',
+				pointer: { x: e.pageX, y: e.pageY },
+				data: cv.toDataURL('image/jpeg', 0)
+			});
 		}
 	});
 	_fw.Screen.on('touchend', function (e) {
 		console.log('up', e);
-		socket.emit('pointer', { type: 'up', x: e.pageX, y: e.pageY });
+		socket.emit('pointer', { type: 'up' });
 	});
 });
 
 /***/ }),
-/* 58 */,
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(30)();

@@ -1,9 +1,10 @@
 
 import rects from './model'
 import {e} from './index.js'
+import {vec} from 'fw'
 
-let cv = document.querySelector('#canvas')
-let ct = cv.getContext('2d')
+export let cv = document.querySelector('#canvas')
+export let ct = cv.getContext('2d')
 
 window.addEventListener('load', () => {
 	cv.width  = window.innerWidth
@@ -15,7 +16,7 @@ window.addEventListener('load', () => {
 	})
 })
 
-let last = null
+// let last = null
 
 export let draw = () => {
 	ct.clearRect(0, 0, cv.width, cv.height)
@@ -35,11 +36,14 @@ export let draw = () => {
 		ct.restore()
 	})
 	// send update
-	if (new Date() - last > 10) {
-		last = new Date()
-		e.emit('update', canvas.toDataURL('image/jpeg', 0.1))
-	}
+	// if (new Date() - last > 10) {
+	// 	last = new Date()
+	// 	e.emit('update', canvas.toDataURL('image/jpeg', 0.1))
+	// }
 }
+
+// export let size = () => new vec(cv.width, cv.height)
+// export let data = () => canvas.toDataURL('image/jpeg', 0.1)
 
 let roundedImage = (x, y, w, h, r) => {
 	ct.beginPath()

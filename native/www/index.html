@@ -6,9 +6,10 @@
 </head>
 <body></body>
 <script>
-	window.location = `http://${prompt(
-		'What is the server ip?',
-		'192.168.1.4'
-	)}:8000/client`
+	var storage = window.localStorage
+	var ip = storage.getItem('ip') || '192.168.1.4'
+	var pt = prompt('What is the server ip?', ip)
+	storage.setItem('ip', pt)
+	window.location = `http://${ip}:8000/client`
 </script>
 </html>
