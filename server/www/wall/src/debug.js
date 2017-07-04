@@ -4,8 +4,8 @@ let ct = cv.getContext('2d')
 
 export let drawScreens = (client, wall, height) => {
 	// set size
-	cv.width 	   = client.width + wall.cv.width
-	cv.height 	   = height
+	cv.width 	    = client.width + wall.cv.width
+	cv.height 	    = height
 	cv.style.width  = cv.width  + 'px'
 	cv.style.height = cv.height + 'px'
 	// draw dev
@@ -28,6 +28,15 @@ export let drawMatches = (matches, width) => {
 		ct.lineTo(matches[i].keypoint2[0] + width, matches[i].keypoint2[1])
 		ct.stroke()
 	}
+}
+
+export let drawColors = matches => {
+	matches.forEach(m => {
+		ct.beginPath()
+		ct.arc(m.x+m.width/2, m.y+m.height/2, 5, 0, 2 * Math.PI)
+		ct.fillStyle = 'red'
+		ct.fill()
+	})
 }
 
 export let drawCursor = (src, dst, width) => {

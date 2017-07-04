@@ -65,7 +65,7 @@ document.addEventListener('deviceready', () => {
 		// 	last = new Date()
 		if (redraw) {
 			redraw = false
-			let canvas = scaleCanvas(cv, 100)
+			let canvas = scaleCanvas(cv, 150)
 			socket.emit('pointer', {
 				event   : 'move',
 				pointer : {x:e.pageX, y:e.pageY},

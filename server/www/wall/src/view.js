@@ -6,6 +6,9 @@ import {vec} from 'fw'
 export let cv = document.querySelector('#canvas')
 export let ct = cv.getContext('2d')
 
+let p = 40
+export let marks;
+
 window.addEventListener('load', () => {
 	cv.width  = window.innerWidth
 	cv.height = window.innerHeight - 2
@@ -14,10 +17,16 @@ window.addEventListener('load', () => {
 		rect.img.onload = draw
 		rect.img.src    = rect.src
 	})
+	marks = {
+		lt : new vec(p, p), 
+		rt : new vec(cv.width - p, p),
+		lb : new vec(p, cv.height - p),
+		rb : new vec(cv.width - p, cv.height - p)
+	}
 })
 
 export let draw = pointer => {
-	ct.clearRect(0, 0, cv.width, cv.height)
+	// ct.clearRect(0, 0, cv.width, cv.height)
 	ct.fillStyle = 'white'
 	ct.fillRect(0, 0, cv.width, cv.height)
 	// draw content
@@ -34,6 +43,13 @@ export let draw = pointer => {
 		ct.drawImage(rect.img, rect.x, rect.y, rect.w, rect.h)
 		ct.restore()
 	})
+	// draw tracking marks
+	for (let a in marks) {
+		ct.fillStyle = `rgb(255,0,255)`
+		ct.beginPath()
+		ct.arc(marks[a].x, marks[a].y, p-10, 0, 2 * Math.PI)
+		ct.fill()
+	}
 	// draw cursor
 	if (pointer) {
 		ct.beginPath()
