@@ -1,64 +1,50 @@
 
-// let http   = require('http')
-// let server = http.createServer()
-// let io     = require('socket.io')(server)
+const path    = require('path')
+const request = require('request')
+const express = require('express')
+const app     = express()
+const server  = require('http').Server(app).listen(8000)
+const io      = require('socket.io')(server)
 
-// server.listen(3000, () => {
-// 	console.log('listening on *:3000')
-// })
-// 
-// io.sockets.on('connection', socket => {
-// 	console.log('socket connected...')
-// 	socket.on('disconnect', () => {
-// 		console.log('...socket disconnected')
-// 		// socket.emit('text', 'wow. such event. very real time.')
-// 	})
-// 	socket.on('stream', data => {
-// 		// console.log('stream', data)
-// 		socket.broadcast.emit('stream', data)
-// 	})
-// 	socket.on('pointer', data => {
-// 		console.log('[pointer]', data)
-// 		socket.broadcast.emit('pointer', data)
-// 	})
-// })
+// const child_process = require('child_process')
 
-// import http from 'http'
-// import url  from 'url'
-// import fs   from 'fs'
-// import io   from 'socket.io'
-// 
-// let server = http.createServer((request, response) => {
-// 	var path = __dirname + url.parse(request.url).pathname
-// 	console.log(__dirname)
-// 	console.log(path)
-// 	fs.readFile(path, (error, data) => {
-// 		if (error) {
-// 			response.writeHead(404)
-// 			response.write('opps this doesn\'t exist - 404')
-// 			response.end()
-// 		} else {
-// 			response.writeHead(200, {'Content-Type': 'text/html'})
-// 			response.write(data, 'utf8')
-// 			response.end()
-// 		}
-// 	})
-// }).listen(8000)
-// 
-// io(server).sockets.on('connection', socket => {
-// 	
-// })
+// const fs      = require('fs')
 
-import path from 'path'
-import express from 'express'
-const app = express()
+//app.use('/wall', express.static('www/wall'))
+app.use('/client', express.static('www/client'))
 
-app.get('/client', (req, res, next) => {
-	return express.static(path.join(process.cwd(), 'www/client'))(req, res, next)
+app.use('/wall', (req, res, next) => {
+	// if (req.url !== "/build/index.js") {
+	// 	return express.static('www/wall')(req, res, next)
+	// }
+	
+	var webpackDevServerHost = 'http://localhost:8080/www/wall'
+	req.pipe(request(webpackDevServerHost + req.url)).pipe(res)
 })
-
-app.get('*', (req, res, next) => {
-	return express.static(path.join(process.cwd(), 'www/wall'))(req, res, next)
+	
+io.sockets.on('connection', socket => {
+	console.log('socket connected...')
+	socket.on('disconnect', () => {
+		console.log('...socket disconnected')
+	})
+	// socket.on('stream.client', data => {
+	// 	console.log('stream', new Date())
+	// 	socket.broadcast.emit('stream.client', data)
+	// 	// write to the disk
+	// 	// fs.writeFile('./learn/client.jpg',
+	// 	// 	data.replace(/^data:image\/jpeg;base64,/, ""), 
+	// 	// 	'base64', console.log)
+	// })
+	// socket.on('stream.wall', data => {
+	// 	// console.log('stream', new Date())
+	// 	// socket.broadcast.emit('stream', data)
+	// 	// write to the disk
+	// 	// fs.writeFile('./learn/wall.jpg', 
+	// 	// 	data.replace(/^data:image\/jpeg;base64,/, ""), 
+	// 	// 	'base64', console.log)
+	// })
+	socket.on('pointer', data => {
+		// console.log('[pointer]', data)
+		socket.broadcast.emit('pointer', data)
+	})
 })
-
-app.listen(8000)

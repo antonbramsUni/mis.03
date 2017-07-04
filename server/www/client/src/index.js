@@ -3,6 +3,30 @@ import '../graphic/style.sass'
 import io from 'socket.io-client'
 import {Screen} from 'fw'
 
+export let getDescriptors = cv => {
+	var data = cv
+		.getContext('2d')
+		.getImageData(0, 0, cv.width, cv.height)
+	let blur    = tracking.Image.blur(data.data, cv.width, cv.height, 3)
+	var gray    = tracking.Image.grayscale(blur, cv.width, cv.height)
+	var corners = tracking.Fast.findCorners(gray, cv.width, cv.height)
+	return {
+		corners, 
+		descriptors : tracking.Brief.getDescriptors(gray, cv.width, corners)
+	}
+}
+
+export let scaleCanvas = (canvas, height) => {
+	let cv    = document.createElement('canvas')
+	let ct    = cv.getContext('2d')
+	let ratio = height / canvas.height
+	cv.height = height
+	cv.width  = canvas.width * ratio
+	ct.scale(ratio, ratio)
+	ct.drawImage(canvas, 0, 0)
+	return {cv, ratio}
+}
+
 document.addEventListener('deviceready', () => {
 	console.log('[App]', 'hello world')
 	// app setup
@@ -27,26 +51,35 @@ document.addEventListener('deviceready', () => {
 		quality : 10,
 	}, error => console.log('[CanvasCamera]', error))
 	// mouse drag
+	let redraw = true
+	socket.on('redraw', () => {
+		redraw = true
+	})
 	Screen.on('touchstart', e => {
 		console.log('down', e)
-		socket.emit('pointer', {
-			type    : 'down',
-			pointer : {x:e.pageX, y:e.pageY}
-		})
+		socket.emit('pointer', {event : 'down'})
 	})
 	Screen.on('touchmove', e => {
 		console.log('move', e)
-		if (new Date() - last > rate) {
-			last = new Date()
+		// if (new Date() - last > rate) {
+		// 	last = new Date()
+		if (redraw) {
+			redraw = false
+			let canvas = scaleCanvas(cv, 100)
 			socket.emit('pointer', {
-				type    : 'move',
+				event   : 'move',
 				pointer : {x:e.pageX, y:e.pageY},
-				data    : cv.toDataURL('image/jpeg', 0)
+				data    : canvas.cv.toDataURL('image/jpeg', 1),
+				ratio   : canvas.ratio * 2
+				// data  : getDescriptors(canvas),
+				// size  : {width: canvas.width, height: canvas.height}
 			})
 		}
+		console.log(redraw)
 	})
 	Screen.on('touchend', e => {
 		console.log('up', e)
-		socket.emit('pointer', {type : 'up'})
+		socket.emit('pointer', {event : 'up'})
+		redraw = true
 	})
 })

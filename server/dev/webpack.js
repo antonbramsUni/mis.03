@@ -1,10 +1,11 @@
 
-var webpack	= require('webpack')
-var externals  = require('webpack-node-externals')
-var env		= process.env.NODE_ENV.split('.')
-	env		= {target: env[0], mode: env[1]}
+const webpack = require('webpack')
+const ip	  = require('ip')
+let   env     = process.env.NODE_ENV.split('.')
+	  env     = {target : env[0], mode : env[1]}
+// var externals  = require('webpack-node-externals')
 
-var config = {
+let config = {
 	entry   : {
 		// './index.js' : './src/index.js',
 		'./www/client/build/index.js' : './www/client/src/index.js',
@@ -51,7 +52,7 @@ var config = {
 	}*/
 };
 
-var out = {
+let out = {
 	output  : {
 		filename      : '[name]',
 		libraryTarget : 'umd',
@@ -65,10 +66,10 @@ if (env.target == 'client') Object.assign(config, {
 	devServer : {
 		contentBase : './',
 		stats       : 'errors-only',
-		host        : '192.168.1.4',
+		host        : ip.address(),
 		inline      : true,
 		hot         : true,
-		port        : 8000
+		port        : 8080
 	},
 	plugins : [
 		new webpack.HotModuleReplacementPlugin()

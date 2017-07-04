@@ -23,10 +23,14 @@ export default {
 			let dif = this.position.add(p).sub(this.pointer)
 			a.x = dif.x
 			a.y = dif.y
-			draw()
+			draw(p)
 		}
+	},
+	shift (p) {
+		this[this.dragged == -1? 'down': 'move'](p)
 	},
 	up (p) {
 		this.dragged = -1
+		draw()
 	}
 }

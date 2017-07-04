@@ -1,6 +1,4 @@
 
-let radius = 3
-
 export let scaleCanvas = (canvas, height) => {
 	let cv    = document.createElement('canvas')
 	let ct    = cv.getContext('2d')
@@ -9,7 +7,7 @@ export let scaleCanvas = (canvas, height) => {
 	cv.width  = canvas.width * ratio
 	ct.scale(ratio, ratio)
 	ct.drawImage(canvas, 0, 0)
-	return cv
+	return {cv, ratio}
 }
 
 export let scaleImage = (data, height, onload) => {
@@ -28,11 +26,12 @@ export let scaleImage = (data, height, onload) => {
 }
 
 export let getDescriptors = cv => {
+	let radius = 3
 	var data = cv
 		.getContext('2d')
 		.getImageData(0, 0, cv.width, cv.height)
-	let blur    = tracking.Image.blur(data.data, cv.width, cv.height, radius)
-	var gray    = tracking.Image.grayscale(blur, cv.width, cv.height)
+	// let blur    = tracking.Image.blur(data.data, cv.width, cv.height, radius)
+	var gray    = tracking.Image.grayscale(data.data, cv.width, cv.height)
 	var corners = tracking.Fast.findCorners(gray, cv.width, cv.height)
 	return {
 		corners, 
@@ -45,17 +44,3 @@ export let getMatches = (a, b) => tracking.Brief
 		a.corners, a.descriptors, 
 		b.corners, b.descriptors)
 	.sort((a, b) => b.confidence - a.confidence)
-
-export let draw = (matches, ct, width) => {
-	for (var i = 0; i < matches.length; i ++) {
-		var color = '#' + Math.floor(Math.random()*16777215).toString(16)
-		ct.fillStyle   = color
-		ct.strokeStyle = color
-		ct.fillRect(matches[i].keypoint1[0], matches[i].keypoint1[1], 4, 4)
-		ct.fillRect(matches[i].keypoint2[0] + width, matches[i].keypoint2[1], 4, 4)
-		ct.beginPath()
-		ct.moveTo(matches[i].keypoint1[0], matches[i].keypoint1[1])
-		ct.lineTo(matches[i].keypoint2[0] + width, matches[i].keypoint2[1])
-		ct.stroke()
-	}
-}

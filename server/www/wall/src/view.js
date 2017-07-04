@@ -16,12 +16,11 @@ window.addEventListener('load', () => {
 	})
 })
 
-// let last = null
-
-export let draw = () => {
+export let draw = pointer => {
 	ct.clearRect(0, 0, cv.width, cv.height)
 	ct.fillStyle = 'white'
 	ct.fillRect(0, 0, cv.width, cv.height)
+	// draw content
 	rects.concat().sort((a, b) => a.z - b.z).forEach(rect => {
 		ct.save()
 		roundedImage(rect.x, rect.y, rect.w, rect.h, 10)
@@ -35,15 +34,14 @@ export let draw = () => {
 		ct.drawImage(rect.img, rect.x, rect.y, rect.w, rect.h)
 		ct.restore()
 	})
-	// send update
-	// if (new Date() - last > 10) {
-	// 	last = new Date()
-	// 	e.emit('update', canvas.toDataURL('image/jpeg', 0.1))
-	// }
+	// draw cursor
+	if (pointer) {
+		ct.beginPath()
+		ct.arc(pointer.x, pointer.y, 30, 0, 2 * Math.PI)
+		ct.fillStyle = 'hsla(205, 100%, 50%, .5)'
+		ct.fill()
+	}
 }
-
-// export let size = () => new vec(cv.width, cv.height)
-// export let data = () => canvas.toDataURL('image/jpeg', 0.1)
 
 let roundedImage = (x, y, w, h, r) => {
 	ct.beginPath()
