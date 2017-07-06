@@ -28,6 +28,7 @@ export default {
 	},
 	shift (p) {
 		this[this.dragged == -1? 'down': 'move'](p)
+		if (this.dragged == -1) draw(p)
 	},
 	up (p) {
 		this.dragged = -1
