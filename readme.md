@@ -5,15 +5,15 @@
 - Erika Garces 118047
 - Anton Kliuyeu 118026
 
-#### Filesystem Tree
-- `./native` is a cordova native iOS sandbox for the application loader
-- `./server/` server application with socket.io communication
+#### File System Tree
+- `./native/.` Cordova native iOS sandbox
+	- `./native/www/index.html` Application loader
+- `./server/index.js` server application with socket.io communication
 	- `./server/www/`
-		- `./sever/www/client/` client web-application for iPhone
-		-  `./sever/www/wall/` the wall canvas application
+		- `./sever/www/client/index.html` Client web-application for iPhone 7
+		-  `./sever/www/wall/index.html` Wall canvas application
 
 # Touch projector in JavaScript
-
 ## Summary of “Touch Projector: Mobile Interaction through Video”
 
 The aim of the paper “Touch Projector: Mobile Interaction through Video” is based on 1992 Tani’s idea.  He proposed to remotely operate machines by manipulating a live video image on a screen. His project was implemented using cameras that observed industrial machinery and allowed users to manipulate switches and sliders over a distance. Boring revisited Tani´s metaphor, even though the environment and usage scenarios had drastically changed, the metaphor was still fascinating, and presented a system that enabled users to interact with screens through live video image but now using mobile devices.
@@ -25,7 +25,7 @@ As mentioned before, our implementation was based on 2010 Boring’s system. The
 
 The modules and libraries used in our implantation are as follow:
 
-- https://github.com/antonkluev/fw.git, a self-made JavaScript framework that deals with DOM, contains math functions and other utilities that improve readability and development speed.
+- https://github.com/antonkluev/fw.git, a self-made JavaScript framework dealing with DOM, containing math functions and other utilities that improved readability and development speed.
 - https://github.com/VirtuoWorks/CanvasCameraPlugin.git, this plugin was utilized to translate the camera signal to canvas graphic.
 - Express, this module was used to create a http server.
 - Perspective-transform, JavaScript library that handled the perspective matrix calculation.
